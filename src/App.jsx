@@ -44,22 +44,29 @@ function App() {
     if (error) {
       if (error.code === 'PGRST116') {
         const { error: insertError } = await supabase.from('visit_stats').insert([{ count: 1 }])
-        if (!insertError) {
+        if (insertError) {
+          setStatus(`카운트 생성 실패: ${insertError.message}`)
+        } else {
           await loadStats()
         }
         return
       }
+
+      setStatus(`카운트 조회 실패: ${error.message}`)
       return
     }
 
     const { error: updateError } = await supabase
       .from('visit_stats')
-      .update({ count: (data.count ?? 0) + 1 })
+      .update({ count: (data.count ?? 0) + 1, updated_at: new Date().toISOString() })
       .eq('id', data.id)
 
-    if (!updateError) {
-      await loadStats()
+    if (updateError) {
+      setStatus(`카운트 증가 실패: ${updateError.message}`)
+      return
     }
+
+    await loadStats()
   }
 
   useEffect(() => {
