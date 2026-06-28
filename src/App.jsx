@@ -134,10 +134,14 @@ function App() {
       return
     }
 
+    console.log('stock rpc request', { productId: selectedProduct.id, quantity, productName: selectedProduct.name })
+
     const { data: rpcData, error: stockError } = await supabase.rpc('decrement_product_stock', {
       p_product_id: selectedProduct.id,
       p_quantity: quantity,
     })
+
+    console.log('stock rpc response', { rpcData, stockError })
 
     setSubmitting(false)
 
