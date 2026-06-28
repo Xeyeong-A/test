@@ -5,38 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>김민수 | 자기소개</title>
     <style>
-      :root { color-scheme: dark; }
+      :root {
+        color-scheme: light;
+      }
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #0f172a, #1d4ed8);
-        color: #f8fafc;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f5f7fb;
+        color: #111827;
         min-height: 100vh;
         display: grid;
         place-items: center;
       }
       .card {
-        background: rgba(15, 23, 42, 0.85);
-        padding: 2rem 2.5rem;
-        border-radius: 20px;
-        box-shadow: 0 20px 45px rgba(0,0,0,0.25);
-        max-width: 640px;
-        text-align: center;
+        width: min(92vw, 760px);
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+        padding: 2.5rem;
       }
-      h1 { margin-bottom: 0.5rem; }
-      p { line-height: 1.7; }
-      .pill { display: inline-block; margin: 0.3rem; padding: 0.45rem 0.8rem; border-radius: 999px; background: #2563eb; }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 2rem;
+        letter-spacing: -0.02em;
+      }
+      .subtitle {
+        margin: 0 0 1.25rem;
+        font-size: 1rem;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+      .section {
+        margin-top: 1.25rem;
+      }
+      .label {
+        display: inline-block;
+        margin: 0.3rem 0.35rem 0.3rem 0;
+        padding: 0.45rem 0.8rem;
+        background: #eef2ff;
+        color: #3730a3;
+        border-radius: 999px;
+        font-size: 0.95rem;
+      }
+      .quote {
+        margin-top: 1.25rem;
+        padding: 1rem 1.15rem;
+        background: #f9fafb;
+        border-left: 4px solid #6366f1;
+        color: #374151;
+        line-height: 1.7;
+      }
     </style>
   </head>
   <body>
     <main class="card">
       <h1>안녕하세요, 김민수입니다.</h1>
-      <p>웹 개발과 사용자 경험을 사랑하는 개발자입니다. 꾸준히 배우고, 문제를 해결하며, 함께 성장하는 환경을 중요하게 생각합니다.</p>
-      <div>
-        <span class="pill">Frontend</span>
-        <span class="pill">React</span>
-        <span class="pill">GitHub</span>
-        <span class="pill">Learning</span>
+      <p class="subtitle">사용자 중심의 웹 경험을 만드는 개발자입니다. 늘 배우고, 기록하고, 함께 성장하는 것을 좋아합니다.</p>
+
+      <div class="section">
+        <span class="label">웹 개발</span>
+        <span class="label">UI/UX</span>
+        <span class="label">GitHub</span>
+        <span class="label">성장 중</span>
+      </div>
+
+      <div class="quote">
+        “좋은 서비스는 단순한 기능보다, 사람에게 자연스럽게 다가가는 경험에서 시작됩니다.”
       </div>
     </main>
   </body>
