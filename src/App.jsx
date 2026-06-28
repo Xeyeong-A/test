@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
 
 function App() {
-  const [message, setMessage] = useState('연결 중...')
+  const [status, setStatus] = useState('연결 확인 중...')
 
   useEffect(() => {
     const testConnection = async () => {
       const { data, error } = await supabase.from('profiles').select('*').limit(1)
       if (error) {
-        setMessage(`연결 실패: ${error.message}`)
+        setStatus(`연결 실패: ${error.message}`)
       } else {
-        setMessage(`연결 성공: ${data.length}개 레코드 확인`)
+        setStatus(`연결 성공: ${data.length}개 레코드 확인`)
       }
     }
 
@@ -18,10 +18,11 @@ function App() {
   }, [])
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Supabase 연결 테스트</h1>
-      <p>{message}</p>
-    </div>
+    <main style={{ fontFamily: 'sans-serif', padding: '2rem', lineHeight: 1.6 }}>
+      <h1>React + Supabase 연결 테스트</h1>
+      <p>{status}</p>
+      <p>이 페이지는 Vite React 앱으로 실행됩니다.</p>
+    </main>
   )
 }
 
