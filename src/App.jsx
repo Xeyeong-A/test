@@ -134,10 +134,10 @@ function App() {
       return
     }
 
-    const { error: stockError } = await supabase
-      .from('products')
-      .update({ stock: newStock })
-      .eq('id', selectedProduct.id)
+    const { data: rpcData, error: stockError } = await supabase.rpc('decrement_product_stock', {
+      p_product_id: selectedProduct.id,
+      p_quantity: quantity,
+    })
 
     setSubmitting(false)
 
@@ -147,7 +147,7 @@ function App() {
     }
 
     await loadProducts()
-    setStatus(`${selectedProduct.name} 주문이 접수되었고 재고가 ${newStock}개로 줄었습니다.`)
+    setStatus(`${selectedProduct.name} 주문이 접수되었고 재고가 ${rpcData}개로 줄었습니다.`)
     setForm((prev) => ({ ...prev, customer_name: '', customer_phone: '', customer_address: '', quantity: 1 }))
   }
 
