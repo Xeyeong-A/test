@@ -142,12 +142,12 @@ function App() {
     setSubmitting(false)
 
     if (stockError) {
-      setStatus(`재고 차감 실패: ${stockError.message}`)
+      setStatus(`재고 차감 실패: ${stockError.message} (product_id=${selectedProduct.id}, quantity=${quantity})`)
       return
     }
 
     await loadProducts()
-    setStatus(`${selectedProduct.name} 주문이 접수되었고 재고가 ${rpcData}개로 줄었습니다.`)
+    setStatus(`${selectedProduct.name} 주문이 접수되었고 재고가 ${rpcData}개로 줄었습니다. (product_id=${selectedProduct.id}, quantity=${quantity})`)
     setForm((prev) => ({ ...prev, customer_name: '', customer_phone: '', customer_address: '', quantity: 1 }))
   }
 
