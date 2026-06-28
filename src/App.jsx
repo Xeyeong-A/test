@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
+import { canFulfillOrder, getUpdatedStock } from './lib/stock'
 
 function App() {
   const [products, setProducts] = useState([])
@@ -102,12 +103,19 @@ function App() {
       return
     }
 
+    const quantity = Math.max(1, Number(form.quantity) || 1)
+
+    if (!canFulfillOrder(selectedProduct.stock, quantity)) {
+      setStatus(`재고가 부족합니다. 현재 재고: ${selectedProduct.stock ?? 0}개`)
+      return
+    }
+
     setSubmitting(true)
 
-    const quantity = Math.max(1, Number(form.quantity) || 1)
     const totalPrice = Number(selectedProduct.price ?? 0) * quantity
+    const newStock = getUpdatedStock(selectedProduct.stock, quantity)
 
-    const { error } = await supabase.from('orders').insert([
+    const { error: orderError } = await supabase.from('orders').insert([
       {
         customer_name: form.customer_name.trim(),
         customer_phone: form.customer_phone.trim(),
@@ -120,14 +128,26 @@ function App() {
       },
     ])
 
-    setSubmitting(false)
-
-    if (error) {
-      setStatus(`주문 저장 실패: ${error.message}`)
+    if (orderError) {
+      setSubmitting(false)
+      setStatus(`주문 저장 실패: ${orderError.message}`)
       return
     }
 
-    setStatus(`${selectedProduct.name} 주문이 접수되었습니다.`)
+    const { error: stockError } = await supabase
+      .from('products')
+      .update({ stock: newStock })
+      .eq('id', selectedProduct.id)
+
+    setSubmitting(false)
+
+    if (stockError) {
+      setStatus(`재고 차감 실패: ${stockError.message}`)
+      return
+    }
+
+    await loadProducts()
+    setStatus(`${selectedProduct.name} 주문이 접수되었고 재고가 ${newStock}개로 줄었습니다.`)
     setForm((prev) => ({ ...prev, customer_name: '', customer_phone: '', customer_address: '', quantity: 1 }))
   }
 
